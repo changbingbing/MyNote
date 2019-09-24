@@ -1,0 +1,2 @@
+讨论：关于DubboProtocol类的openServer()方法中为什么使用双重检测锁，为什么使用ConcurrentHashMap？
+
