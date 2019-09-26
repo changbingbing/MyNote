@@ -37,7 +37,7 @@
 * CP－满足一致性，分区容错性的系统，通常性能不是特别高；
 * AP－满足可用性，分区容错性的系统，通常可能对一致性要求低一些。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-06-095200.jpg)
+![](../assets-images/2019-09-06-095200.jpg)
 
 # BASE
 
@@ -69,7 +69,7 @@
 
 通过下图实例，我们也可以更直观的了解Mongo中的一些概念：
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-03-074618.jpg)
+![](../assets-images/2019-09-03-074618.jpg)
 
 ## 数据库
 
@@ -277,7 +277,7 @@ ObjectId 类似唯一主键，可以很快的去生成和排序，包含 12 byte
 * 紧接的两个字节由进程 id 组成 PID
 * 最后三个字节是随机数
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-03-090107.jpg)
+![](../assets-images/2019-09-03-090107.jpg)
 
 ​	MongoDB 中存储的文档必须有一个 _id 键。这个键的值可以是任何类型的，默认是个 ObjectId 对象
 
@@ -431,7 +431,7 @@ MongoDB的客户端直接与路由节点相连,从配置节点上查询数据,�
 
 副本集与分片混合部署方式如图：
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-05-054416.png)
+![](../assets-images/2019-09-05-054416.png)
 
 ```text
 相同的副本集中的节点存储的数据是一样的,副本集中的节点是分为主节点、从节点、仲裁节点(非必须)三种角色。
@@ -443,21 +443,21 @@ MongoDB的客户端直接与路由节点相连,从配置节点上查询数据,�
 ```
 
 1. 混合部署方式下向MongoDB写数据的流程图：
-   ![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-05-055236.png)
+   ![](../assets-images/2019-09-05-055236.png)
 2. 混合部署方式下读MongoDB里的数据流程如图：
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-05-055033.png)
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-05-055345.png)
+![](../assets-images/2019-09-05-055033.png)
+![](../assets-images/2019-09-05-055345.png)
 
 ## 副本集集群
 
 ​	对于副本集集群，又有主和从两种角色，写数据和读数据也不同，**写数据的过程是只写到主节点中，由主节点以异步的方式同步到从节点**：
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-05-055636.png)
+![](../assets-images/2019-09-05-055636.png)
 
 而**读数据则只要从任一节点中读取，具体到哪个节点读取是可以指定的**：
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-05-055816.png)
+![](../assets-images/2019-09-05-055816.png)
 
 # MongoDB的应用场景和不适用场景
 

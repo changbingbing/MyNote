@@ -2,7 +2,7 @@
 
 * 优点：主如果宕机，仲裁节点会选举从作为新的主
 * 缺点：一旦仲裁节点挂了，集群就废了(主从沦为单点，不再进行主从选举)
-  ![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-06-082014.png)
+  ![](../assets-images/2019-09-06-082014.png)
 
 ## 节点1配置
 
@@ -90,7 +90,7 @@ rs.initiate(cfg);
 rs.status()
 ```
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-06-082912.png)
+![](../assets-images/2019-09-06-082912.png)
 
 ## 无仲裁副本集
 

@@ -6,11 +6,11 @@
 
 打开启动类的@SpringBootApplication 注解源码。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-090304.png)
+![](../assets-images/2019-08-28-090304.png)
 
 我们发现@SpringBootApplication 注解其实就是一个组合注解，其中各个注解的意义为:
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-090406.png)
+![](../assets-images/2019-08-28-090406.png)
 
 ### 元注解
 
@@ -83,21 +83,21 @@ public @interface EnableAutoConfiguration {...
 
 ### 解析@Import
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-092319.png)
+![](../assets-images/2019-08-28-092319.png)
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-092340.png)
+![](../assets-images/2019-08-28-092340.png)
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-092413.png)
+![](../assets-images/2019-08-28-092413.png)
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-092432.png)
+![](../assets-images/2019-08-28-092432.png)
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-092446.png)
+![](../assets-images/2019-08-28-092446.png)
 
 ### 解析@AutoConfigurationPackage
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-092540.png)
+![](../assets-images/2019-08-28-092540.png)
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-092855.png)
+![](../assets-images/2019-08-28-092855.png)
 
 # Spring.yml的加载
 
@@ -105,45 +105,45 @@ public @interface EnableAutoConfiguration {...
 
 ## 启动方法run()跟踪
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-30-081705.png)
+![](../assets-images/2019-08-30-081705.png)
 
 ## 准备运行环境
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-30-081736.png)
+![](../assets-images/2019-08-30-081736.png)
 
 ## 让监听器准备监听过程
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-30-081806.png)
+![](../assets-images/2019-08-30-081806.png)
 
 ## 发布环境准备事件
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-30-081832.png)
+![](../assets-images/2019-08-30-081832.png)
 
 ## 触发监听器
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-30-081857.png)
+![](../assets-images/2019-08-30-081857.png)
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-30-081933.png)
+![](../assets-images/2019-08-30-081933.png)
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-30-081951.png)
+![](../assets-images/2019-08-30-081951.png)
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-30-082010.png)
+![](../assets-images/2019-08-30-082010.png)
 
 ## 加载配置文件
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-30-082101.png)
+![](../assets-images/2019-08-30-082101.png)
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-30-082156.png)
+![](../assets-images/2019-08-30-082156.png)
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-30-082319.png)
+![](../assets-images/2019-08-30-082319.png)
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-30-082340.png)
+![](../assets-images/2019-08-30-082340.png)
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-30-082354.png)
+![](../assets-images/2019-08-30-082354.png)
 
 # Spring Boot与Redis的整合
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-30-082644.png)
+![](../assets-images/2019-08-30-082644.png)
 
 ​	在 spring.factories 中有一个 `RedisAutoConfiguration` 类,通过前面的分析我们知道,该类一定会被 Spring 容器自动装配。但自动装配了就可以读取到 Spring Boot 配置文件中 Redis相关的配置信息了?这个类与 Spring Boot 配置文件是怎么建立的联系?
 
@@ -183,17 +183,17 @@ public @interface EnableAutoConfiguration {...
 
 ​	在 External Libraries 中找到这个依赖。我们发现,其不仅有代码,在 `META-INF` 中还有`spring.factories` 文件,打开这个文件我们找到了 Mybatis 的自动配置类。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-30-084320.png)
+![](../assets-images/2019-08-30-084320.png)
 
 ## 解析MybatisAutoConfiguration
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-30-084406.png)
+![](../assets-images/2019-08-30-084406.png)
 
 ## 解析MybatisProperties
 
 ​	指定用于封装 Spring Boot 配置文件中以 mybatis 开头的 `configLocation`、`mapperLocations`等属性值。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-30-084550.png)
+![](../assets-images/2019-08-30-084550.png)
 
 # 自定义Starter
 
@@ -215,31 +215,31 @@ public @interface EnableAutoConfiguration {...
 
 ​	创建一个 Spring Boot 工程,命名为 `wrap-spring-boot-starter`,并导入 `Configuration Processor` 与 `Lombok` 依赖 
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-30-090347.png)
+![](../assets-images/2019-08-30-090347.png)
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-30-090358.png)
+![](../assets-images/2019-08-30-090358.png)
 
 最终定义好后的工程结构如下:
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-30-090425.png)
+![](../assets-images/2019-08-30-090425.png)
 
 #### 定义一个Service类
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-30-090453.png)
+![](../assets-images/2019-08-30-090453.png)
 
 #### 定义配置属性封装类
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-30-090504.png)
+![](../assets-images/2019-08-30-090504.png)
 
 #### 定义自动配置类
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-30-090523.png)
+![](../assets-images/2019-08-30-090523.png)
 
 #### 创建spring.factories文件
 
 ​	在 `resources/META-INF` 目录下创建一个名为 `spring.factories` 的文件。该配置文件是一个键值对文件,键是固定的,为 `EnableAutoConfiguration` 类的全限定性类名,而值则为我们自定义的自动配置类。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-30-090649.png)
+![](../assets-images/2019-08-30-090649.png)
 
 ## 使用自定义的Starter
 
@@ -249,27 +249,27 @@ public @interface EnableAutoConfiguration {...
 
 创建一个 Spring Boot 工程,仅需要一个 web 依赖。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-30-091055.png)
+![](../assets-images/2019-08-30-091055.png)
 
 ### 导入自定义Starter依赖
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-30-091131.png)
+![](../assets-images/2019-08-30-091131.png)
 
 ### 定义properties.yml
 
 自定义 Starter 中的属性在配置文件中也是有自动 示功能的。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-30-091155.png)
+![](../assets-images/2019-08-30-091155.png)
 
 ### 定义Controller
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-30-091213.png)
+![](../assets-images/2019-08-30-091213.png)
 
 ### 运行访问
 
 启动类无需修改,直接启动运行即可。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-30-091238.png)
+![](../assets-images/2019-08-30-091238.png)
 
 # 相关文档：
 

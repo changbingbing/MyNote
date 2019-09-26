@@ -97,7 +97,7 @@ N 个 partition,M 个 broker：
 
 ​	**LEO**：Log End Offset,日志最后消息的偏移量。消息在 Kafka 中是被写入到日志文件中的,这是当前最后一个消息在 Partition 中的偏移量。 
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-19-022419.png)
+![](../assets-images/2019-09-19-022419.png)
 
 ​	对于 leader 新写入的消息,consumer 是不能立刻消费的。leader 会等待该消息被所有 ISR 中的 partition follower 同步后才会更新 HW,将 HW 写入到 ISR 中,此时消息才能被 consumer 消费。
 
@@ -160,43 +160,43 @@ N 个 partition,M 个 broker：
 ​	==HW截断机制比较重要，原理演示==分析如下：
 
 ​	比如有3台主机：Leader A、B、C，里面暂时有1、2、3 三个消息(此时HW和LEO都在消息3这个位置)
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-19-023137.png)
+![](../assets-images/2019-09-19-023137.png)
 
 1. 正常场景：producer生产消息4、5、6
 
    * 首先进入LeaderA，此时LeaderA的LEO在消息6这个位置(每个主机都有自己的LEO，HW是集群Leader＋Follower共有的)；
-     ![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-19-024522.png)
+     ![](../assets-images/2019-09-19-024522.png)
    * 接下来B、C开始从Leader A同步消息，B同步了4、5消息，此时B的LEO在消息5这个位置；C所在主机性能有限，暂时只同步了4，此时C的LEO在消息4这个位置；此时，B、C都同步到了消息4，因此HW就涨上去到了消息4这个位置，这就意味着消息4现在可以被Consumer消费了（消息5、6还不能被消费）； 
-     ![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-19-024346.png)
+     ![](../assets-images/2019-09-19-024346.png)
    * 紧接着，B同步了6，C同步了5，发现B、C都同步到了消息5，因此HW又涨上去到了消息5这个位置；
-     ![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-19-024810.png)
+     ![](../assets-images/2019-09-19-024810.png)
    * 最后，C虽然慢，但最终也同步了6，此时三台主机LEO都在消息6这个位置，HW也涨至消息6位置了，这个过程就展示了什么是HW，什么是LEO。
-     ![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-19-025009.png)
+     ![](../assets-images/2019-09-19-025009.png)
 
 2. 异常场景（以上是正常流程，假设没有截断机制，会发生什么事情呢？）
 
    * 首先，同上producer生产消息4、5、6，进入Leader A中，B、C同步消息至上面第二步，如图：
-     ![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-19-024346.png)
+     ![](../assets-images/2019-09-19-024346.png)
 
    * 接下来，B、C继续同步，突然Leader A宕机了（A随之进入了OSR队列），此时B、C都在ISR中，所以要选举新的Leader。如何选举呢？这个选举Leader非常简单，ISR是个队列，它是直接从队列中拿取队首元素，不会像ZK那样做很复杂的选举。
-     ![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-19-030731.png)
+     ![](../assets-images/2019-09-19-030731.png)
    * 假设拿到的队首元素是B，那么B就是Leader了，同时producer又生产新消息6、7
-     ![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-19-031525.png)
+     ![](../assets-images/2019-09-19-031525.png)
    * 接着，C要同步Leader B消息。假设刚好同步了消息5，HW随之涨至消息5位置
-     ![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-19-031645.png)
+     ![](../assets-images/2019-09-19-031645.png)
    * C刚好同步了消息5，突然发现A又活了（Broker Controller检测到OSR中的A复活，允许其进入ISR中，成为Follower)
-     ![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-19-032316.png)
+     ![](../assets-images/2019-09-19-032316.png)
    * Follower A要从Leader B中同步数据，即同步消息7，此时会发现什么问题？A、B的消息6发生数据不一致了
-     ![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-19-032540.png)
+     ![](../assets-images/2019-09-19-032540.png)
    * 因此，在没有HW截断机制的情况下，会引发数据不一致问题
 
 3. 异常场景，有截断截止会如何？还从上面异常场景第4步A复活说起
-   ![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-19-033409.png)
+   ![](../assets-images/2019-09-19-033409.png)
 
    * 主机A复活，截断机制，首先会将A的LEO调整至它宕机那一刻的HW位置（**HW记录在ISR中，ISR记录在ZK中**），即LEO从A的消息6位置挪到消息4的位置，截断也就是说从宕机时的HW位置开始截断，后面的数据A的5、6都不要了
-     ![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-19-033854.png)
+     ![](../assets-images/2019-09-19-033854.png)
    * 截断后，然后重新再做同步(将Leader B的5、6、7同步至A)，此时数据肯定都一致！同时，我们也发现A原来的消息6丢失了
-     ![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-19-033955.png)
+     ![](../assets-images/2019-09-19-033955.png)
    * 因此，HW截断机制存在数据丢失问题（相比数据不一致问题，数据丢失可以接受)
 
 ## 2.2.4 消息发送的可靠性机制

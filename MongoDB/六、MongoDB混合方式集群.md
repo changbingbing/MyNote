@@ -1,6 +1,6 @@
 ## 部署图
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-06-083532.png)
+![](../assets-images/2019-09-06-083532.png)
 
 ## 数据服务器配置
 
@@ -191,4 +191,4 @@ sh.shardCollection("kkb.mycollection",{name:"hashed"});#分片规则，表示按
 for(var i=1;i<=100;i++) db.mycollection.insert({name:"James"+i,age:i});#js脚本
 ```
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-06-084529.png)
+![](../assets-images/2019-09-06-084529.png)

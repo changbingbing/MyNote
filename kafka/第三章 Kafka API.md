@@ -324,13 +324,13 @@ public class SyncManualConsumer extends ShutdownableThread {
 
 直接复制前面的 SomeConsumer,在其基础上进行修改。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-20-021738.png)
+![](../assets-images/2019-09-20-021738.png)
 
 直接复制前面的 SomeConsumer,在其基础上进行修改。
 
 #### 修改doWork()方法
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-20-021638.png)
+![](../assets-images/2019-09-20-021638.png)
 
 ### 测试类SyncManulTest
 
@@ -402,7 +402,7 @@ public class AsynManualConsumer extends ShutdownableThread {
 }
 ```
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-20-022257.png)
+![](../assets-images/2019-09-20-022257.png)
 
 ### 测试类 AsyncManulTest
 
@@ -476,7 +476,7 @@ public class SyncAsyncManualConsumer extends ShutdownableThread {
 }
 ```
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-20-022453.png)
+![](../assets-images/2019-09-20-022453.png)
 
 ### 测试类 SyncAsyncManualTest
 
@@ -497,7 +497,7 @@ public class SyncAsyncManualTest {
 
 创建一个 Spring Boot 工程,导入如下依赖。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-20-022648.png)
+![](../assets-images/2019-09-20-022648.png)
 
 ## 定义发布者
 

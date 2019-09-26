@@ -4,7 +4,7 @@ MongoDB 提供了 linux 各发行版本 64 位的安装包，你可以在官网�
 
 下载地址：https://www.mongodb.com/download-center#community
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-05-070546.png)
+![](../assets-images/2019-09-05-070546.png)
 
 下载完安装包，并解压 **tgz**（以下演示的是 64 位 Linux上的安装） 。
 

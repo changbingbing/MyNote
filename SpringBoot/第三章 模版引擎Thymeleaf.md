@@ -52,21 +52,21 @@ xmlns:th="http://www.thymeleaf.org"
 
 ### 修改处理器类
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-071735.png)
+![](../assets-images/2019-08-27-071735.png)
 
 ### 创建VO类
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-082658.png)
+![](../assets-images/2019-08-27-082658.png)
 
 ### 修改index页面
 
 直接在页面中添加如下内容:
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-083935.png)
+![](../assets-images/2019-08-27-083935.png)
 
 ### 测试效果
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-084001.png)
+![](../assets-images/2019-08-27-084001.png)
 
 ## 选择表达式*{...}
 
@@ -80,11 +80,11 @@ xmlns:th="http://www.thymeleaf.org"
 
 直接在页面中添加如下内容:
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-084410.png)
+![](../assets-images/2019-08-27-084410.png)
 
 ### 测试效果
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-084435.png)
+![](../assets-images/2019-08-27-084435.png)
 
 ## URL表达式@{...}
 
@@ -92,45 +92,45 @@ xmlns:th="http://www.thymeleaf.org"
 
 ​	`@{...}`中的 URL 地址具有三种写法。为了演示这三种写法的区别,先为当前工程添加一个上下文路径,然后直接在 index.html 文件中修改。 
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-084720.png)
+![](../assets-images/2019-08-27-084720.png)
 
 ### 以http协议开头的绝对地址
 
 ​	在进行字符串拼接时使用加号(+)连接,容易出错。但使用双竖线则无需字符串拼接,简单易读。但是,Idea 会对其中的问号(?)报错,不过其不影响运行
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-084930.png)
+![](../assets-images/2019-08-27-084930.png)
 
 ​	在页面通过查看源码可以看到其解析结果。当然,对于 and 符(&)Thymeleaf 会将其解析为实体形式(&amp;),但浏览器会对(&amp;)进行正确解析。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-084945.png)
+![](../assets-images/2019-08-27-084945.png)
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-084957.png)
+![](../assets-images/2019-08-27-084957.png)
 
 ### 以/开头的相对地址
 
 ​	在 URL 表达式中,Thymeleaf 会将开头的斜杠(/)解析为当前工程的上下文路径 `ContextPath`,而浏览器会自动为其添加“http://主机名:端口号”,即其即为一个绝对路径。 
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-085117.png)
+![](../assets-images/2019-08-27-085117.png)
 
 在页面通过查看源码可以看到其解析结果中已经添加了上下文路径。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-085128.png)
+![](../assets-images/2019-08-27-085128.png)
 
 而在页面则可以看到浏览器对其解析的结果已经添加了 http://localhost:8080。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-085140.png)
+![](../assets-images/2019-08-27-085140.png)
 
 ### 不以/开头的相对地址
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-085351.png)
+![](../assets-images/2019-08-27-085351.png)
 
 ​	在页面通过查看源码可以看到其解析结果中是未添加任何东西的,即没有上下文路径。也就是说,其是相对于当前请求路径的一个相对地址。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-085403.png)
+![](../assets-images/2019-08-27-085403.png)
 
 ​	而在页面则可以看到浏览器对其解析的结果已经添加了 http://localhost:8080/xxx/test,这是相对于当前请求路径的的一个相对地址的转换结果。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-085435.png)
+![](../assets-images/2019-08-27-085435.png)
 
 # Thymeleaf常见属性
 
@@ -138,9 +138,9 @@ xmlns:th="http://www.thymeleaf.org"
 
 Thymeleaf 的属性很多,从官网的 Docs 模块的在线文档中可以看到。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-090249.png)
+![](../assets-images/2019-08-27-090249.png)
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-090402.png)
+![](../assets-images/2019-08-27-090402.png)
 
 5.2 标题为:设置指定属性的值。
 
@@ -168,7 +168,7 @@ model.addAttribute("gender", "male");
 
 #### 效果
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-090804.png)
+![](../assets-images/2019-08-27-090804.png)
 
 ### th:switch/th:case
 
@@ -188,7 +188,7 @@ model.addAttribute("age", "35");
 
 ​	一旦某个 case 与 switch 的值相匹配了,剩余的 case 则不再比较。`th:case="*"`表示默表示默认的 case,前面的 case 都不匹配时候执行该 case。 
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-091133.png)
+![](../assets-images/2019-08-27-091133.png)
 
 ### th:each
 
@@ -202,17 +202,17 @@ model.addAttribute("age", "35");
 
 在 Controller 中添加如下代码。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-091514.png)
+![](../assets-images/2019-08-27-091514.png)
 
 ##### 修改index页面
 
 前面的 stu 为当前遍历对象,而`${students}`为遍历的集合。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-091550.png)
+![](../assets-images/2019-08-27-091550.png)
 
 ##### 效果
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-091601.png)
+![](../assets-images/2019-08-27-091601.png)
 
 #### 遍历状态对象
 
@@ -227,11 +227,11 @@ model.addAttribute("age", "35");
 
 ##### 修改index
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-092059.png)
+![](../assets-images/2019-08-27-092059.png)
 
 ##### 效果
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-092121.png)
+![](../assets-images/2019-08-27-092121.png)
 
 #### 遍历Map
 
@@ -239,17 +239,17 @@ model.addAttribute("age", "35");
 
 ##### 修改处理器
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-092358.png)
+![](../assets-images/2019-08-27-092358.png)
 
 ##### 修改index页面
 
 Idea 对这个遍历对象的 key、value 属性会报错,但不影响运行。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-092427.png)
+![](../assets-images/2019-08-27-092427.png)
 
 ##### 效果
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-092441.png)
+![](../assets-images/2019-08-27-092441.png)
 
 ## html标签相关
 
@@ -263,11 +263,11 @@ model.addAttribute("welcome","<h2>Thymeleaf,<br/>I'm learning.</h2>");
 
 #### 修改index页面
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-092942.png)
+![](../assets-images/2019-08-27-092942.png)
 
 #### 效果
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-092957.png)
+![](../assets-images/2019-08-27-092957.png)
 
 ### th:name/th:value
 
@@ -281,13 +281,13 @@ model.addAttribute("attrName", "age");
 
 #### 修改index页面
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-093137.png)
+![](../assets-images/2019-08-27-093137.png)
 
 #### 效果
 
 在页面查看源码可以看到如下效果。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-27-093226.png)
+![](../assets-images/2019-08-27-093226.png)
 
 ### URL路径相关
 
@@ -299,7 +299,7 @@ model.addAttribute("attrName", "age");
 
 ​	在工程的 src/main/resources/static 目录下创建一个 Directory,命名为 images,并在其中存放入一张图片 car.jpg。 
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-013618.png)
+![](../assets-images/2019-08-28-013618.png)
 
 #### 修改处理器
 
@@ -335,21 +335,21 @@ model.addAttribute("photo", "car.jpg");
 
 ### 需求场景描述
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-015121.png)
+![](../assets-images/2019-08-28-015121.png)
 
 ​	如上所示,我们的需求是,在”他的名字是“后面紧跟动态数据,但以上写法会使动态数据直接显示在`<p>`标签体中,而将”他的名字是“内容覆盖。
 
 ### 内联文本
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-015227.png)
+![](../assets-images/2019-08-28-015227.png)
 
 运行效果是:
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-015245.png)
+![](../assets-images/2019-08-28-015245.png)
 
 ### 内联脚本
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-015256.png)
+![](../assets-images/2019-08-28-015256.png)
 
 ### 内联CSS
 
@@ -374,7 +374,7 @@ model.addAttribute("bgColor", "red");
 
 现在 index 页面中添加如下代码,使用内联 CSS 定义`<div>`的样式。此内联的写法 Idea不识别,但不影响运行。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-020029.png)
+![](../assets-images/2019-08-28-020029.png)
 
 ## 万能属性th:attr
 
@@ -386,13 +386,13 @@ model.addAttribute("bgColor", "red");
 
 5.1 标题为:为任意属性设置值。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-020731.png) 
+![](../assets-images/2019-08-28-020731.png) 
 
 ### 一次为多个属性赋予动态参数
 
 若想一次为多个属性赋予动态参数,则可以使用该属性。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-020821.png)
+![](../assets-images/2019-08-28-020821.png)
 
 # Thymeleaf运算基础
 
@@ -404,13 +404,13 @@ model.addAttribute("bgColor", "red");
 
 > 由单引号括起来的字符串,称为文本字面量。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-021329.png)
+![](../assets-images/2019-08-28-021329.png)
 
 ### 数字字面量
 
 > 数字字面量就是数字,可以是整数,也可以是小数。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-021413.png)
+![](../assets-images/2019-08-28-021413.png)
 
 ### 布尔字面量
 
@@ -424,7 +424,7 @@ model.addAttribute("isClose", false);
 
 #### 修改index页面
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-021612.png)
+![](../assets-images/2019-08-28-021612.png)
 
 ### null字面量
 
@@ -432,11 +432,11 @@ model.addAttribute("isClose", false);
 
 #### 修改处理器
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-021816.png)
+![](../assets-images/2019-08-28-021816.png)
 
 #### 修改index页面
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-021858.png)
+![](../assets-images/2019-08-28-021858.png)
 
 ## Thymeleaf运算符
 
@@ -445,7 +445,7 @@ model.addAttribute("isClose", false);
 ​	可以使用加号(+)进行字符串拼接,也可以将文本字面量与动态数据直接写入由双竖线
 括起来的字符串内,此时无需使用加号进行连接。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-022142.png)
+![](../assets-images/2019-08-28-022142.png)
 
 ### 算数运算符
 
@@ -469,7 +469,7 @@ model.addAttribute("isClose", false);
 
 > ?:
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-022433.png)
+![](../assets-images/2019-08-28-022433.png)
 
 # Thymeleaf内置对象
 
@@ -483,23 +483,23 @@ model.addAttribute("isClose", false);
 
 在处理器中再定义一个处理器方法。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-030351.png)
+![](../assets-images/2019-08-28-030351.png)
 
 ### 定义页面
 
 再定义一个页面 index2.html。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-030444.png)
+![](../assets-images/2019-08-28-030444.png)
 
 ### 提交请求及运行效果
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-030523.png)
+![](../assets-images/2019-08-28-030523.png)
 
 ## 表达式实用对象
 
 ​	Tymeleaf  提供了大量的表达式实用对象,这些对象中存在大量的方法。这些方法直接使用`"#工具对象.方法"`的方式使用。其使用方式类似于 Java 中的静态方法。这些工具对象相关文档在官网文档的第 19 条中。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-030722.png)
+![](../assets-images/2019-08-28-030722.png)
 
 ### 工具对象简介
 
@@ -528,14 +528,14 @@ model.addAttribute("isClose", false);
 
 #### 修改处理器
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-031256.png)
+![](../assets-images/2019-08-28-031256.png)
 
 #### 定义页面
 
 再定义一个页面 index3.html。
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-031346.png)
+![](../assets-images/2019-08-28-031346.png)
 
 #### 效果
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-08-28-031359.png)
+![](../assets-images/2019-08-28-031359.png)

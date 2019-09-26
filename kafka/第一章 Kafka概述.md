@@ -6,7 +6,7 @@
 
 kafka学习框架
 
-![](http://pwtosjisl.bkt.clouddn.com/ipic-blog/2019-09-19-082409.jpg)
+![](../assets-images/2019-09-19-082409.jpg)
 
 # 1.2 kafka系统架构
 
