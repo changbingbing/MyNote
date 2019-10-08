@@ -6,7 +6,7 @@
 
 ​	Eureka 是 Netflix 开发的服务发现框架,本身是一个基于 REST 的服务,主要用于定位运行在 AWS域中的中间层服务,以达到==负载均衡==和==中间层服务故障转移==的目的。SpringCloud 将它集成在其子项目 spring-cloud-netflix 中,实现 SpringCloud 的服务发现功能。 
 
-​	其实,Eureka 就是一个专门用于服务发现的服务器,一些服务注册到该服务器,而另一些服务通过该服务器查找其所要调用执行的服务。可以充当服务发现服务器的组件很多,例 如 Zookeeper、Consul、Eureka(集成最好，用的最多) 等 
+​	其实,Eureka 就是一个专门用于==服务发现==的服务器,一些服务注册到该服务器,而另一些服务通过该服务器查找其所要调用执行的服务。可以充当服务发现服务器的组件很多,例 如 Zookeeper、Consul、Eureka(集成最好，用的最多) 等 
 
 ## Eureka体系架构
 
@@ -234,8 +234,6 @@ public class ProviderApplication {
     }
 }
 ```
-
-
 
 # actuator完善微服务info
 
