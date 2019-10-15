@@ -583,3 +583,6 @@ public class SomeConsumer {
 }
 ```
 
+# 补充
+
+​	Kafka有个监控平台，可以时时监控kafka情况，自己可以研究下！

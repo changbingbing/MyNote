@@ -147,17 +147,17 @@ public class ConsumerApplication {
 
 ```java
 @HystrixCommand(fallbackMethod = "getHystrixHandle")
-    @GetMapping("/get/{id}")
-    public Depart getHandle(@PathVariable("id") int id) {
-        return service.getDepartById(id);
-    }
+@GetMapping("/get/{id}")
+public Depart getHandle(@PathVariable("id") int id) {
+  return service.getDepartById(id);
+}
 
-    public Depart getHystrixHandle(@PathVariable("id") int id) {
-        Depart depart = new Depart();
-        depart.setId(id);
-        depart.setName("no this depart2");
-        return depart;
-    }
+public Depart getHystrixHandle(@PathVariable("id") int id) {
+  Depart depart = new Depart();
+  depart.setId(id);
+  depart.setName("no this depart2");
+  return depart;
+}
 ```
 
 ### 在启动类添加注解@SpringCloudApplication
