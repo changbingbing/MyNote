@@ -17,12 +17,13 @@
 ## 常见的数据库管理系统
 
 ```shell
-- MYSQL :开源免费的数据库,小型的数据库.已经被Oracle收购了。MySQL5.5版本之后都是由Oracle发布 的版本。
+- MYSQL :开源免费的数据库,小型的数据库.已经被Oracle收购了。MySQL5.5版本之后都是由Oracle发布的版本。
 - Oracle :收费的大型数据库,Oracle公司的产品。Oracle收购SUN公司,收购MYSQL。
 - DB2 :IBM公司的数据库产品,收费的。常应用在银行系统中。在中国的互联网公司,要求去IOE(IBM小型
 机、Oracle数据库、EMC存储设备)
 - SQLServer:MicroSoft 公司收费的中型的数据库。C#、.net等语言常使用。
-- SyBase :已经淡出历史舞台。提供了一个非常专业数据建模的工具PowerDesigner。 - SQLite : 嵌入式的小型数据库,应用在手机端。 
+- SyBase :已经淡出历史舞台。提供了一个非常专业数据建模的工具PowerDesigner。 
+- SQLite : 嵌入式的小型数据库,应用在手机端。 
 ```
 
 这里主要讨论的是：MySQL
@@ -36,22 +37,18 @@
 ## MySQL发展历程
 
 ```shell
-- MySQL的历史可以追溯到1979年,一个名为Monty Widenius的程序员在为TcX的小公司打工,并且用BASIC 设计了一个报表工具,使其可以在4MHz主频和16KB内存的计算机上运行。当时,这只是一个很底层的且仅面向报表 的存储引擎,名叫Unireg。
-- 1990年,TcX公司的客户中开始有人要求为他的API提供SQL支持。Monty直接借助于mSQL的代码,将它集成 到自己的存储引擎中。令人失望的是,效果并不太令人满意,决心自己重写一个SQL支持。
+- MySQL的历史可以追溯到1979年,一个名为Monty Widenius的程序员在为TcX的小公司打工,并且用BASIC 设计了一个报表工具,使其可以在4MHz主频和16KB内存的计算机上运行。当时,这只是一个很底层的且仅面向报表的存储引擎,名叫Unireg。
+- 1990年,TcX公司的客户中开始有人要求为他的API提供SQL支持。Monty直接借助于mSQL的代码,将它集成到自己的存储引擎中。令人失望的是,效果并不太令人满意,决心自己重写一个SQL支持。
 - 1996年,MySQL 1.0发布,它只面向一小拨人,相当于内部发布。
-- 到了1996年10月,MySQL 3.11.1发布(MySQL没有2.x版本),最开始只提供Solaris下的二进制版本。一个
-月后,Linux版本出现了。在接下来的两年里,MySQL被依次移植到各个平台。
-- 【1999~2000年】,【MySQL AB】公司在瑞典成立。Monty雇了几个人与Sleepycat合作,开发出了
-【Berkeley DB引擎】, 由于BDB支持事务处理,因此MySQL从此开始支持事务处理了。
-- 2000,MySQL不仅公布自己的源代码,并采用GPL(GNU General Public License)许可协议,正式进入开
-源世界。同年4月,MySQL对旧的存储引擎ISAM进行了整理,将其命名为MyISAM。
-- 2001年,集成Heikki Tuuri的存储引擎【InnoDB】,这个引擎不仅能【支持事务处理,并且支持行级
-锁】。后来该引擎被证明是最为成功的MySQL事务存储引擎。【MySQL与InnoDB的正式结合版本是4.0】
+- 到了1996年10月,MySQL 3.11.1发布(MySQL没有2.x版本),最开始只提供Solaris下的二进制版本。一个月后,Linux版本出现了。在接下来的两年里,MySQL被依次移植到各个平台。
+-【1999~2000年】,【MySQL AB】公司在瑞典成立。Monty雇了几个人与Sleepycat合作,开发出了【Berkeley DB引擎】, 由于BDB支持事务处理,因此MySQL从此开始支持事务处理了。
+- 2000,MySQL不仅公布自己的源代码,并采用GPL(GNU General Public License)许可协议,正式进入开源世界。同年4月,MySQL对旧的存储引擎ISAM进行了整理,将其命名为MyISAM。
+- 2001年,集成Heikki Tuuri的存储引擎【InnoDB】,这个引擎不仅能【支持事务处理,并且支持行级锁】。后来该引擎被证明是最为成功的MySQL事务存储引擎。【MySQL与InnoDB的正式结合版本是4.0】
 - 2003年12月,【MySQL 5.0】版本发布,提供了视图、存储过程等功能。
-- 【2008年1月】,【MySQL AB公司被Sun公司以10亿美金收购】,MySQL数据库进入Sun时代。在Sun时代, Sun公司对其进行了大量的推广、优化、Bug修复等工作。
+-【2008年1月】,【MySQL AB公司被Sun公司以10亿美金收购】,MySQL数据库进入Sun时代。在Sun时代, Sun公司对其进行了大量的推广、优化、Bug修复等工作。
 - 2008年11月,MySQL 5.1发布,它提供了分区、事件管理,以及基于行的复制和基于磁盘的NDB集群系统,同 时修复了大量的Bug。
-- 【2009年4月】,Oracle公司以74亿美元收购Sun公司,自此MySQL数据库进入Oracle时代,而其第三方的 存储引擎InnoDB早在2005年就被Oracle公司收购。
-- 2010年12月,【MySQL 5.5发布】,其主要新特性包括半同步的复制及对SIGNAL/RESIGNAL的异常处理功能 的支持,【最重要的是InnoDB存储引擎终于变为当前MySQL的默认存储引擎】。MySQL 5.5不是时隔两年后的一次 简单的版本更新,而是加强了MySQL各个方面在企业级的特性。Oracle公司同时也承诺MySQL 5.5和未来版本仍是 采用GPL授权的开源产品。
+-【2009年4月】,Oracle公司以74亿美元收购Sun公司,自此MySQL数据库进入Oracle时代,而其第三方的 存储引擎InnoDB早在2005年就被Oracle公司收购。
+- 2010年12月,【MySQL 5.5发布】,其主要新特性包括半同步的复制及对SIGNAL/RESIGNAL的异常处理功能的支持,【最重要的是InnoDB存储引擎终于变为当前MySQL的默认存储引擎】。MySQL 5.5不是时隔两年后的一次 简单的版本更新,而是加强了MySQL各个方面在企业级的特性。Oracle公司同时也承诺MySQL 5.5和未来版本仍是 采用GPL授权的开源产品。
 ```
 
 # SQL介绍

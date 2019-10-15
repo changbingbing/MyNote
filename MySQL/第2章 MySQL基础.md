@@ -90,8 +90,8 @@ systemctl start mysqld
 
   * `ALL PRIVILEGES` :表示授予所有的权限,此处可以指定具体的授权权限。
   * `*.*` :表示所有库中的所有表
-  * `'root'@'%'` : myuser是数据库的用户名,%表示是任意ip地址,可以指定具体ip地址。
-  * `IDENTIFIED BY 'mypassword'` :mypassword是数据库的密码。
+  * `'root'@'%'` : root是数据库的用户名,%表示是任意ip地址,可以指定具体ip地址。
+  * `IDENTIFIED BY 'root'` :root是数据库的密码。
 
 ## 关闭Linux防火墙
 
@@ -166,7 +166,8 @@ drop database 数据库名称;
 
 ```mysql
 create table 表名(
-字段名 类型(长度) 约束, 字段名 类型(长度) 约束
+  字段名 类型(长度) 约束, 
+  字段名 类型(长度) 约束
 );
 ```
 
@@ -178,7 +179,7 @@ create table 表名(
   - 非空约束:not null
   ```
 
-* 注意：
+* 注意⚠️：
 
   ```mysql
   主键约束 = 唯一约束 + 非空约束
@@ -206,13 +207,13 @@ drop table 表名;
 
 ### 修改表
 
-```sql
+```mysql
 alter table 表名 add 列名 类型(长度) 约束; --修改表添加列.
-alter table 表名 modify 列名 类型(长度) 约束; --修改表修改列的类型长度及约束. alter table 表名 change 旧列名 新列名 类型(长度) 约束; --修改表修改列名.
-alter table 表名 drop 列名;
-rename table 表名 to 新表名;
-alter table 表名 character set 字符集;
---修改表删除列. --修改表名 --修改表的字符集
+alter table 表名 modify 列名 类型(长度) 约束; --修改表修改列的类型长度及约束. 
+alter table 表名 change 旧列名 新列名 类型(长度) 约束; --修改表修改列名.
+alter table 表名 drop 列名; --修改表删除列.
+rename table 表名 to 新表名; --修改表名
+alter table 表名 character set 字符集; --修改表的字符集
 ```
 
 # DML语句
@@ -228,13 +229,13 @@ alter table 表名 character set 字符集;
   insert into 表 values select * from 表;
   ```
 
-* 注意
+* 注意⚠️
 
   1. 列名数与values后面的值的个数相等 
   2. 列的顺序与插入的值得顺序一致 
   3. 列名的类型与插入的值要一致. 
   4. 插入值得时候不能超过最大长度. 
-  5. 值如果是字符串或者日期需要加引号’’ (一般是单引号 )
+  5. 值如果是字符串或者日期需要加引号' ' (一般是单引号 )
 
 * 例如：
 
@@ -258,7 +259,7 @@ alter table 表名 character set 字符集;
 
   * 列名的类型与修改的值要一致.
   * 修改值得时候不能超过最大长度.
-  * 值如果是字符串或者日期需要加‘ ’.
+  * 值如果是字符串或者日期需要加' '.
 
 ## 删除记录：delete
 
@@ -268,7 +269,7 @@ alter table 表名 character set 字符集;
   delete from 表名 [where 条件];
   ```
 
-* 面试题
+* 面试题⚠️⚠️⚠️
 
   ```sql
   --删除表中所有记录使用【delete from 表名】,还是用【truncate table 表名】?
@@ -282,11 +283,13 @@ alter table 表名 character set 字符集;
 ## 准备工作
 
 ```mysql
+-- 创建商品表
 CREATE TABLE products (
-pid INT PRIMARY KEY AUTO_INCREMENT, # 自增加 AUTO_INCREMENT pname VARCHAR(20),#商品名称
-price DOUBLE, #商品价格
-pdate DATE, # 日期
-sid VARCHAR(20) #分类ID
+  pid INT PRIMARY KEY AUTO_INCREMENT, # 自增加 AUTO_INCREMENT 
+  pname VARCHAR(20),#商品名称
+  price DOUBLE, #商品价格
+  pdate DATE, # 日期
+  sid VARCHAR(20) #分类ID
 );
 
 INSERT INTO products VALUES(NULL,'泰国大榴莲', 98, NULL, 's001'); 
@@ -319,25 +322,176 @@ LIMIT < limit_number >
 
 ### 简单查询
 
+SQL语法关键字：`SELECT、FROM`
 
+* 查询所有商品
+
+  ```mysql
+  select * from product;
+  ```
+
+* 查询商品名称和价格
+
+  ```mysql
+  select pname,price from product;
+  ```
+
+* 别名查询，使用关键字as，as可以省略
+
+  * 表别名
+
+    ```mysql
+    select * from product as p;
+    ```
+
+  * 列别名
+
+    ```mysql
+    select pname as pn from product;
+    ```
+
+* 过滤重复值
+
+  ```mysql
+  select distinct price from product;
+  ```
+
+* 查询结果是表达式(运算查询):将所有商品的价格+10元进行显示.
+
+  ```mysql
+  select pname,price+10 from product;
+  ```
 
 ### 条件查询
 
+SQL语法关键字：`WHERE`
+
+WHERE后的条件语法：
+
+1. \> ,<,=,>=,<=,<>
+
+2. like 使用占位符 _ 和 % _代表一个字符 %代表任意个字符. 
+
+   ```mysql
+   select * from product where pname like '%新%';
+   ```
+
+3. in在某个范围中获得值(exists). 
+
+   ```mysql
+   select * from product where pid in (2,5,8);     
+   ```
+
+![image-20191015153125057](../assets-images/image-20191015153125057.png)
+
+* 查询商品名称为十三香的商品所有信息
+
+  ```mysql
+  select * from product where pname = '十三香';
+  ```
+
+* 查询商品价格>60元的所有的商品信息
+
+  ```mysql
+  select * from product where price > 60;
+  ```
+
 ### 排序
+
+SQL语法关键字`ORDER BY、ASC(升序)、DESC(降序)`
+
+* 查询所有的商品,按价格进行排序.(asc-升序,desc-降序)
+
+  ```mysql
+  select * from product order by price;
+  ```
+
+* 查询名称有新的商品的信息并且按价格降序排序.
+
+  ```mysql
+  select * from product where pname like '%新%' order by price desc;
+  ```
 
 ### 聚合函数（组函数）
 
+特点：只对单列进行操作，常用的聚合函数：
+
+> sum():求某一列的和
+> avg():求某一列的平均值
+> max():求某一列的最大值
+> min():求某一列的最小值
+> count():求某一列的元素个数
+
+* 获得所有商品的价格的总和:
+
+  ```mysql
+  select sum(price) from product;
+  ```
+
+* 获得所有商品的平均价格:
+
+  ```mysql
+  select avg(price) from product;
+  ```
+
+* 获得所有商品的个数：
+
+  ```mysql
+  select count(*) from product;
+  ```
+
 ### 分组
+
+SQL语法关键字：`GROUP BY、HAVING`
+
+注意事项⚠️：
+
+> 1. select语句中的列(非聚合函数列),必须出现在group by子句中
+> 1. group by子句中的列,不一定要出现在select语句中
+> 1. 聚合函数只能出现select语句中或者having语句中,一定不能出现在where语句中。
+
+* 根据cid字段分组,分组后统计商品的个数.
+
+  ```mysql
+  select cid,count(*) from product group by cid;
+  ```
+
+* 根据cid分组,分组统计每组商品的平均价格,并且平均价格> 60;
+
+  ```mysql
+  select cid,avg(price) from product group by cid having avg(price)>60;
+  ```
 
 ## 分页查询
 
+SQL语法关键字:`LIMIT  [offset(偏移量),] rows(每页多少行)`
+
+格式：`SELECT * FROM table LIMIT [offset,] rows`
+
+* `LIMIT`关键字不是`SQL92`标准提出的关键字，它是MyQL独有的语法。
+* 通过`LIMIT`关键字，MySQL实现了物理分页。
+* 分页分为逻辑分页和物理分页
+  * 逻辑分页:将数据库中的数据查询到内存之后再进行分页。
+  * 物理分页:通过LIMIT关键字,直接在数据库中进行分页,最终返回的数据,只是分页后的数据。
+
 ## 子查询
+
+* 定义
+
+> 1. 子查询允许把一个查询嵌套在另一个查询当中。
+> 2. 子查询,又叫内部查询,相对于内部查询,包含内部查询的就称为外部查询。
+> 3. 子查询可以包含普通select可以包括的任何子句,比如:distinct、 group by、order by、limit、join和 union等; 
+> 4. 但是对应的外部查询必须是以下语句之一:select、insert、update、delete。  
+
+* 位置
+
+> * select中、from 后、where 中
+> * group by 和order by 中无实用意义。
 
 ## 其他查询语句
 
-
-
-## 
+* union 集合的并集(不包含重复记录)
+* unionall 集合的并集(包含重复记录)
 
 # SQL解析顺序
 
