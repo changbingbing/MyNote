@@ -1,10 +1,10 @@
 # 前言
 
-​	这篇文章不会讲解索引的基础知识，主要是关于MySQL数据库的B 树索引的相关原理，里面的一些知识都参考了MySQL技术内幕这本书，也算对于这些知识的总结。对于B树和B 树相关的知识，可以参考我的这篇博客：[面试官问你B树和B 树，就把这篇文章丢给他](https://blog.ouyangsihai.cn/mian-shi-guan-wen-ni-b-shu-he-b-shu-jiu-ba-zhe-pian-wen-zhang-diu-gei-ta.html)
+​	这篇文章不会讲解索引的基础知识，主要是关于MySQL数据库的B 树索引的相关原理，里面的一些知识都参考了MySQL技术内幕这本书，也算对于这些知识的总结。对于B树和B 树相关的知识，可以参考这篇博客：[面试官问你B树和B 树，就把这篇文章丢给他](https://blog.ouyangsihai.cn/mian-shi-guan-wen-ni-b-shu-he-b-shu-jiu-ba-zhe-pian-wen-zhang-diu-gei-ta.html)
 
 # 索引多管理
 
-​	索引有很多中类型：普通索引、唯一索引、主键索引、组合索引、全文索引，下面我们看看如何创建和删除下面这些类型的索引。
+​	索引有很多种类型：普通索引、唯一索引、主键索引、组合索引、全文索引，下面我们看看如何创建和删除下面这些类型的索引。
 
 ## 索引的创建方式
 
