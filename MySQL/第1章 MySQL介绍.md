@@ -41,14 +41,14 @@
 - 1990年,TcX公司的客户中开始有人要求为他的API提供SQL支持。Monty直接借助于mSQL的代码,将它集成到自己的存储引擎中。令人失望的是,效果并不太令人满意,决心自己重写一个SQL支持。
 - 1996年,MySQL 1.0发布,它只面向一小拨人,相当于内部发布。
 - 到了1996年10月,MySQL 3.11.1发布(MySQL没有2.x版本),最开始只提供Solaris下的二进制版本。一个月后,Linux版本出现了。在接下来的两年里,MySQL被依次移植到各个平台。
--【1999~2000年】,【MySQL AB】公司在瑞典成立。Monty雇了几个人与Sleepycat合作,开发出了【Berkeley DB引擎】, 由于BDB支持事务处理,因此MySQL从此开始支持事务处理了。
+-【1999~2000年】,【MySQL AB】公司在瑞典成立。Monty雇了几个人与Sleepycat合作,开发出了【Berkeley DB引擎】, 由于BDB支持事务处理,因此MySQL从此开始支持事务处理了。⚠️
 - 2000,MySQL不仅公布自己的源代码,并采用GPL(GNU General Public License)许可协议,正式进入开源世界。同年4月,MySQL对旧的存储引擎ISAM进行了整理,将其命名为MyISAM。
 - 2001年,集成Heikki Tuuri的存储引擎【InnoDB】,这个引擎不仅能【支持事务处理,并且支持行级锁】。后来该引擎被证明是最为成功的MySQL事务存储引擎。【MySQL与InnoDB的正式结合版本是4.0】
 - 2003年12月,【MySQL 5.0】版本发布,提供了视图、存储过程等功能。
--【2008年1月】,【MySQL AB公司被Sun公司以10亿美金收购】,MySQL数据库进入Sun时代。在Sun时代, Sun公司对其进行了大量的推广、优化、Bug修复等工作。
+-【2008年1月】,【MySQL AB公司被Sun公司以10亿美金收购】,MySQL数据库进入Sun时代。在Sun时代, Sun公司对其进行了大量的推广、优化、Bug修复等工作。⚠️
 - 2008年11月,MySQL 5.1发布,它提供了分区、事件管理,以及基于行的复制和基于磁盘的NDB集群系统,同 时修复了大量的Bug。
--【2009年4月】,Oracle公司以74亿美元收购Sun公司,自此MySQL数据库进入Oracle时代,而其第三方的 存储引擎InnoDB早在2005年就被Oracle公司收购。
-- 2010年12月,【MySQL 5.5发布】,其主要新特性包括半同步的复制及对SIGNAL/RESIGNAL的异常处理功能的支持,【最重要的是InnoDB存储引擎终于变为当前MySQL的默认存储引擎】。MySQL 5.5不是时隔两年后的一次 简单的版本更新,而是加强了MySQL各个方面在企业级的特性。Oracle公司同时也承诺MySQL 5.5和未来版本仍是 采用GPL授权的开源产品。
+-【2009年4月】,Oracle公司以74亿美元收购Sun公司,自此MySQL数据库进入Oracle时代,而其第三方的 存储引擎InnoDB早在2005年就被Oracle公司收购。⚠️
+- 2010年12月,【MySQL 5.5发布】,其主要新特性包括半同步的复制及对SIGNAL/RESIGNAL的异常处理功能的支持,【最重要的是InnoDB存储引擎终于变为当前MySQL的默认存储引擎】。MySQL 5.5不是时隔两年后的一次 简单的版本更新,而是加强了MySQL各个方面在企业级的特性。Oracle公司同时也承诺MySQL 5.5和未来版本仍是 采用GPL授权的开源产品。⚠️
 ```
 
 # SQL介绍
@@ -64,7 +64,7 @@
 > 下面是SQL发展的简要历史:
 > 1986年,ANSI X3.135-1986,ISO/IEC 9075:1986,SQL-86
 > 1989年,ANSI X3.135-1989,ISO/IEC 9075:1989,SQL-89
-> 1992年,ANSI X3.135-1992,ISO/IEC 9075:1992,SQL-92(SQL2)
+> 1992年,ANSI X3.135-1992,ISO/IEC 9075:1992,SQL-92(SQL2)⚠️
 > 1999年,ISO/IEC 9075:1999,SQL:1999(SQL3)
 > 2003年,ISO/IEC 9075:2003,SQL:2003
 > 2008年,ISO/IEC 9075:2008,SQL:2008
@@ -79,7 +79,7 @@
 ## SQL的语言分类
 
 ```shell
-- 数据定义语言:简称【DDL】(Data Definition Language),用来定义数据库对象:数据库,表,列等。关 键字:create,alter,drop等
+- 数据定义语言:简称【DDL】(Data Definition Language),用来定义数据库对象:数据库,表,列等。关键字:create,alter,drop等
 - 数据操作语言:简称【DML】(Data Manipulation Language),用来对数据库中表的记录进行更新。关键 字:insert,delete,update等
 - 数据控制语言:简称【DCL】(Data Control Language),用来定义数据库的访问权限和安全级别,及创建用 户;关键字:grant等
 - 数据查询语言:简称【DQL】(Data Query Language),用来查询数据库中表的记录。关键字:select, from,where等

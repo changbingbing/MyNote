@@ -50,8 +50,11 @@ default-character-set=utf8
 
 ## 启动MySQL
 
-```shell
+```mysql
 systemctl start mysqld
+
+-- 重启
+systemctl restart mysqld
 ```
 
 ## 设置root用户密码
@@ -81,7 +84,8 @@ systemctl start mysqld
 
 * 示例：授予`root`用户对所有数据库对象的全部操作权限:
 
-  ```shell
+  ```mysql
+  -- %表示所有机器，也可以制定具体IP
   mysql>GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT
   OPTION;
   ```
@@ -96,6 +100,7 @@ systemctl start mysqld
 ## 关闭Linux防火墙
 
 ```shell
+# 两个命令组合使用
 systemctl stop firewalld(默认)
 systemctl disable firewalld.service(设置开启不启动)
 ```
@@ -156,7 +161,7 @@ drop database 数据库名称;
   * 字符型:varchar(可变长字符串) 
   * 日期类型:date(只有年月日,没有时分秒) 
     datetime(年月日,时分秒) 
-  * boolean类型:不支持,一般使用tinyint替代(值为0和1) 
+  * boolean类型:不支持,一般使用`tinyint(1)`替代(值为0和1) 
 
   ![](https://ws1.sinaimg.cn/large/006tKfTcgy1g0ay9hdah9j30r00s245o.jpg)
 
@@ -481,7 +486,7 @@ SQL语法关键字:`LIMIT  [offset(偏移量),] rows(每页多少行)`
 > 1. 子查询允许把一个查询嵌套在另一个查询当中。
 > 2. 子查询,又叫内部查询,相对于内部查询,包含内部查询的就称为外部查询。
 > 3. 子查询可以包含普通select可以包括的任何子句,比如:distinct、 group by、order by、limit、join和 union等; 
-> 4. 但是对应的外部查询必须是以下语句之一:select、insert、update、delete。  
+> 4. 但是对应的外部查询必须是以下语句之一:`select、insert、update、delete`。  
 
 * 位置
 
@@ -515,13 +520,13 @@ ORDER BY
 LIMIT < limit_number >
 ```
 
-然而它的执行顺序是这样的:
+然而它的执行顺序⚠️⚠️⚠️是这样的:
 
 ```sql
  1 FROM <left_table>
  2 ON <join_condition>
- 3 <join_type> JOIN <right_table> --第二步和第三步会循环执行
- 4 WHERE <where_condition> --第四步会循环执行,多个条件的执行顺序是从左往右的。
+ 3 <join_type> JOIN <right_table> --join多张表，第二步和第三步会循环执行
+ 4 WHERE <where_condition> --第四步会循环执行,多个条件的执行顺序是从左往右的（Oracle是从右往左的）。
  5 GROUP BY <group_by_list>
  6 HAVING <having_condition>
  7 SELECT --分组之后才会执行SELECT
@@ -1048,7 +1053,7 @@ insert into product(pid,pname,price,cid) values ('p009','悦诗风吟',1100,'c00
 
 关键字：`INNER JOIN`
 
-内连接也叫 ,内联接使用比较运算符根据每个表共有的列的值匹配两个表中的行。
+内连接也叫**等值连接** ,内联接使用比较运算符根据每个表共有的列的值匹配两个表中的行。
 
 * 隐式内连接
 
@@ -1083,7 +1088,7 @@ insert into product(pid,pname,price,cid) values ('p009','悦诗风吟',1100,'c00
   SELECT  *  FROM  A  RIGHT  JOIN  B ON A.id = B.id
   ```
 
-* 全外连接
+* 全外连接(**MySQL不支持**)
 
   ```mysql
   -- FULL JOIN 或 FULL OUTER JOIN
