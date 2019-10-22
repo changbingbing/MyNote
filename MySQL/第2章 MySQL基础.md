@@ -1109,14 +1109,14 @@ insert into product(pid,pname,price,cid) values ('p009','悦诗风吟',1100,'c00
 * 按照锁的粒度来说,MySQL主要包含三种类型(级别)的锁定机制:
 
   ```mysql
-  -- 全局锁:锁的是整个database。由MySQL的SQL layer层实现的
-  -- 表级锁:锁的是某个table。由MySQL的SQL layer层实现的
+  -- 全局锁:锁的是整个database。由MySQL的SQL layer（server）层实现的
+  -- 表级锁:锁的是某个table。由MySQL的SQL layer（server）层实现的
   -- 行级锁:锁的是某行数据,也可能锁定行之间的间隙。由某些存储引擎实现,比如InnoDB。
   ```
 
 * 按照锁的功能来说分为: 共享读锁和排他写锁 。
 
-* 按照锁的实现方式分为：被关锁和乐观锁(使用某一版本列或者唯一列进行逻辑控制)
+* 按照锁的实现方式分为：悲观锁和乐观锁(使用某一版本列或者唯一列进行逻辑控制)
 
 * 表级锁和行级锁区别：
 
@@ -1129,7 +1129,7 @@ insert into product(pid,pname,price,cid) values ('p009','悦诗风吟',1100,'c00
 
 ### 表级锁介绍
 
-由MySQL SQL layer层实现
+由MySQL SQL layer（server层）层实现
 
 * MySQL的表级锁有两种:
 
@@ -1203,6 +1203,17 @@ INSERT INTO mylock (id,NAME) VALUES (4, 'd');
 #### 写锁演示
 
 ![image-20191018152133275](../assets-images/image-20191018152133275.png)
+
+#### 表锁使用
+
+从两个维度来说，默认加锁和手动加锁：
+
+* 默认加锁：对于表锁的使用，一般直接默认由MySQL帮我们去使用，如何使用呢？
+  * 如果是DML和DQL语句，则默认加上读锁：`lock table xxx read`；
+  * 如果是DDL语句，则默认加上写锁：`lock table xxx write`
+* 手动加锁
+  * 如果是DQL语句，则加读锁：
+  * 如果是DML、DDL，则加写锁；
 
 ### 元数据锁介绍
 
