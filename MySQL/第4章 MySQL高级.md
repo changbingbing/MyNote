@@ -32,6 +32,10 @@
   所有以上的语句,都属于当前读,读取记录的最新版本。并且,读取之后,还需要保证其他并发事务不能修改当前记
   录,对读取记录加锁。
 
+⚠️拓展补充：select是快照读／当前读，也与隔离级别有关哦！(所以，下图示例中，RC机制下，SessionA两次select结果不一致；RR机制下，SessionA两次select结果一致)
+
+![image-20191028154240786](../assets-images/image-20191028154240786.png)
+
 为什么将插入/更新/删除操作,都归为当前读?可以看看下面这个更新操作,在数据库中的执行流程：
 
 ![u=3145983930,4240542232&fm=26&gp=0](../assets-images/u=3145983930,4240542232&fm=26&gp=0.jpg)
@@ -310,7 +314,14 @@ MySQL/InnoDB定义的4种隔离级别：
 
 ![20180809125024328213](../assets-images/20180809125024328213.jpg)
 
-​	从图中可以看出,在Repeatable Read隔离级别下,由Index Key所确定的范围,被加上了GAP锁;Index Filter锁给定的条件 (userid = 'hdc')何时过滤,视MySQL的版本而定,在MySQL 5.6版本之前,不支持Index Condition Pushdown(ICP),因此Index Filter在MySQL Server层过滤,在5.6后支持了Index Condition Pushdown,则在index上过滤。若不支持ICP,不满足Index Filter的记录,也需要加上记录X锁,若支持ICP,则不满足Index Filter的记录,无需加记录X锁 (图中,用红色箭头标出的X锁,是否要加,视是否支持ICP而定);而Table Filter对应的过滤条件,则在聚簇索引中读取后,在MySQL Server层面过滤,因此聚簇索引上也需要X锁。最后,选取出了一条满足条件的记录[8,hdc,d,5,good],但是加锁的数量,要远远大于满足条件的记录数量。
+​	从图中可以看出,在Repeatable Read隔离级别下,由Index Key所确定的范围,被加上了GAP锁;Index Filter锁给定的条件 (userid = 'hdc')何时过滤,视MySQL的版本而定:
+
+* 在MySQL 5.6版本之前,不支持[Index Condition Pushdown(ICP)](https://dev.mysql.com/doc/refman/5.6/en/index-condition-pushdown-optimization.html),因此Index Filter**在MySQL Server层过滤**;
+* 在5.6后支持了Index Condition Pushdown,则**在index上过滤**;
+  * 若不支持ICP,不满足Index Filter的记录,也需要加上记录X锁;
+  * 若支持ICP,则不满足Index Filter的记录,无需加记录X锁 (图中,用红色箭头标出的X锁,是否要加,视是否支持ICP而定); 
+
+而Table Filter对应的过滤条件,则在聚簇索引中读取后,**在MySQL Server层面过滤**,因此聚簇索引上也需要X锁。最后,选取出了一条满足条件的记录[8,hdc,d,5,good],但是加锁的数量,要远远大于满足条件的记录数量。
 
 结论：
 
@@ -328,7 +339,7 @@ MySQL/InnoDB定义的4种隔离级别：
 * 可以根据MySQL的加锁规则,写出不会发生死锁的SQL; 
 * 可以根据MySQL的加锁规则,定位出线上产生死锁的原因; 
 
-下面,来看看两个死锁的例子 (一个是两个Session的两条SQL产生死锁;另一个是两个Session的一条SQL,产生死 锁): 
+下面,来看看两个死锁的例子 (一个是两个Session的两条SQL产生死锁;另一个是两个Session的一条SQL,产生死锁): 
 
 ![sisuo01](../assets-images/sisuo01.jpg)
 
@@ -371,30 +382,44 @@ update user set name='zhange' where id=2;
 
 ![timg](../assets-images/timg.jpg)
 
+1. 事务开始
+2. 对id＝2这条数据上排他锁，并且给其两边临近范围加gap锁，防止别等事务insert新数据；
+3. 将需要修改的数据页PIN到innodb_buffer_cache中
+4. 记录id＝2点数据到undo log
+5. 记录修改id=2的信息到redo log
+6. 修改id＝2的name='zhange'
+7. 刷新innodb_buffer_cache中脏数据到底层磁盘，这个过程和commit无关；
+8. commit，触发page cleaner线程把redo从redo buffer cache中刷新到底层磁盘，并且刷新innodb_buffer_cache中脏数据到底层磁盘也会触发对redo的刷新；
+9. 记录binlog(记录到binlog_buffer_cache中)
+10. 事务结束
+
 * 深色步骤是在MySQL的SQL Layer层实现
 * 浅色步骤是在MySQL的存储引擎层实现
+
+![image-20191028150731190](../assets-images/image-20191028150731190.png)
 
 ## 事务日志文件redo和undo
 
 总起来概述可以认为: 
 
-* undo用来保存数据更改之前的数据;保证一致性
-* redo用来保存数据更改之后的数据(注意是物理的修改信息),保证原子性、持久性 
+* undo用来保存数据更改之前的数据;保证**一致性**
+* redo用来保存数据更改之后的数据(注意是物理的修改信息),保证**原子性、持久性** 
 
 1. 首先介绍Undo Log 
-   Undo Log 主要是为了实现事务的一致性,在MySQL数据库InnoDB存储引擎中,还用Undo Log来实现多版本并发控制(简称:MVCC),之后的文章将会介绍MVCC; 
+   Undo Log 主要是为了实现事务的**一致性**,在MySQL数据库InnoDB存储引擎中,还用Undo Log来实现多版本并发控制(简称:MVCC),之后的文章将会介绍MVCC; 
 
-   Undo Log的原理很简单,为了满足事务的一致性,在操作任何数据之前,首先将数据备份到一个地方,也就是 Undo Log,然后进行数据的修改。如果出现了错误或者用户执行了ROLLBACK语句,系统可以利用Undo Log中的备份将数据恢复到事务开始之前的状态。 
+   Undo Log的原理很简单,为了满足事务的一致性,在操作任何数据之前,首先将数据备份到一个地方,也就是 Undo Log,然后进行数据的修改。如果出现了错误或者用户执行了ROLLBACK语句,系统**可以利用Undo Log中的备份将数据恢复到事务开始之前的状态**。 
 
-   需要注意在MySQL 5.6之前,undo log是放在了共享表空间 ibdata1中的,MySQL5.6中开始支持把undo log分离 到独立的表空间,并放到单独的文件目录下;采用独立undo表空间,再也不用担心undo会把 ibdata1 文件搞大。 
+   需要注意在MySQL 5.6之前,undo log是放在了共享表空间 ibdata1中的,MySQL5.6中开始支持把undo log分离到独立的表空间,并放到单独的文件目录下;采用独立undo表空间,再也不用担心undo会把 ibdata1 文件搞大。 
 
-   **undo log是为回滚而用**,具体内容就是copy事务前的数据库内容(行)到innodb_buffer_pool中的undo buffer(或者undo page),在适合的时间把undo buffer中的内容刷新到磁盘。undo buffer与redo buffer一 样,也是环形缓冲,但当缓冲满的时候,undo buffer中的内容也会被刷新到磁盘;并且innodb_purge_threads后 台线程会清空undo页、清理“deleted”page,InnoDB将Undo Log看作数据,因此记录Undo Log的操作也会记录 到redo log中。这样undo log就可以象数据一样缓存起来
+   **undo log是为回滚而用**,具体内容就是copy事务前的数据库内容(行)到innodb_buffer_pool中的undo buffer(或者undo page),在适合的时间把undo buffer中的内容刷新到磁盘。undo buffer与redo buffer一样,也是环形缓冲,但当缓冲满的时候,undo buffer中的内容也会被刷新到磁盘;并且innodb_purge_threads后台线程会清空undo页、清理“deleted”page,InnoDB将Undo Log看作数据,因此记录Undo Log的操作也会记录到redo log中。这样undo log就可以象数据一样缓存起来
 
-2. 接下来介绍 Redo Log,注意是先写redo,然后才修改buffer cache中的页,因为修改是以页为单位的,所以先 写redo才能保证一个大事务commit的时候,redo已经刷新的差不多了。反过来说假如是先改buffer cache中的 页,然后再写redo,就可能会有很多的redo需要写,因为一个页可能有很多数据行;而很多数据行产生的redo也可 能比较多,那么commit的时候,就可能会有很多redo需要写; 
-
-   和Undo Log相反,Redo Log记录的是新数据的备份。在事务提交前,只要将Redo Log持久化即可, 
-
-   不需要将数据持久化。当系统崩溃时,虽然数据没有持久化,但是Redo Log已经持久化。系统可以根据Redo Log的 内容,将所有数据恢复到最新的状态。需要注意的是,事务过程中,先把redo写进redo log buffer中,然后 MySQL后台进程page cleaner thread适当的去刷新redo到低层磁盘永久保存; 
+2. 接下来介绍 Redo Log
+注意是先写redo,然后才修改buffer cache中的页,因为修改是以页为单位的,所以先写redo才能保证一个大事务commit的时候,redo已经刷新的差不多了。反过来说假如是先改buffer cache中的页,然后再写redo,就可能会有很多的redo需要写,因为一个页可能有很多数据行;而很多数据行产生的redo也可能比较多,那么commit的时候,就可能会有很多redo需要写; 
+   
+和Undo Log相反,**<u>Redo Log记录的是新数据的备份</u>**。在事务提交前,只要将Redo Log持久化即可, 
+   
+   不需要将数据持久化。当系统崩溃时,虽然数据没有持久化,但是Redo Log已经持久化。系统可以根据Redo Log的内容,将所有数据恢复到最新的状态。需要注意的是,事务过程中,先把redo写进redo log buffer中,然后MySQL后台进程page cleaner thread适当的去刷新redo到低层磁盘永久保存; 
 
 # 索引分析
 
@@ -485,17 +510,21 @@ MyISAM 的索引文件仅仅保存数据记录的地址。
 
 ​	为了更形象说明这两种索引的区别, 我们假想一个表如下图存储了 4 行数据。其中Id作为主索引，Name作为辅助索引。图示清晰的显示了聚簇索引和非聚簇索引的差异:
 
+![u=741811465,1666879356&fm=26&gp=0.jpg](../assets-images/u=741811465,1666879356&fm=26&gp=0.jpg.png)
+
 ![p](../assets-images/p.jpg)
 
 ## 为什么使用组合索引
 
-​	为了节省mysql索引存储空间以及提升搜索性能，可建立组合索引(能使用组合索引就不使用单列索引)
+​	为了节省mysql索引存储空间以及提升搜索性能，可建立组合索引(即：**能使用组合索引就不使用单列索引**)
 
 例如：创建组合索引(相当于建立了col1,col1 col2,col1 col2 col3三个索引):
 
 ```mysql
 ALTER TABLE 'table_name' ADD INDEX index_name('col1','col2','col3')
 ```
+
+![image-20191028153516304](../assets-images/image-20191028153516304.png)
 
 ## 哪些情况需要创建索引
 
@@ -540,7 +569,7 @@ ALTER TABLE 'table_name' ADD INDEX index_name('col1','col2','col3')
 
 > 带头索引不能死,中间索引不能断
 
-​	如果索引了多个列，要遵守最佳左前缀法则。指的是查询从索引的最左前列开始 并且 不跳过索引中的列。 正确的示例参考上图。
+​	如果索引了多个列，要遵守最佳左前缀法则。指的是查询从索引的最左前列开始并且不跳过索引中的列。 正确的示例参考上图。
 
 **错误的示例：** 
 带头索引死：

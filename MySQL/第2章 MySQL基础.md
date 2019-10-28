@@ -1242,7 +1242,7 @@ INSERT INTO mylock (id,NAME) VALUES (4, 'd');
 
 MySQL的行级锁,是由存储引擎来实现的,这里我们主要讲解InnoDB的行级锁。
 
-* InnoDB的行级锁,按照锁定范围来说,分为三种:
+* InnoDB的行级锁,按照**锁定范围**来说,分为三种:
 
   ```mysql
   -- 记录锁(Record Locks):锁定索引中一条记录。
@@ -1251,7 +1251,7 @@ MySQL的行级锁,是由存储引擎来实现的,这里我们主要讲解InnoDB�
   -- Next-Key Locks:是索引记录上的记录锁和在索引记录之前的间隙锁的组合。
   ```
 
-* InnoDB的行级锁,按照功能来说,分为两种:
+* InnoDB的行级锁,按照**功能**来说,分为两种:
 
   ```mysql
   -- 共享锁(S):允许一个事务去读一行,阻止其他事务获得相同数据集的排他锁。
@@ -1346,6 +1346,8 @@ create index test_innodb_lock_b_idx on test_innodb_lock(b);
 | 3    | `mysql>commit;Query OK,0 rows affected(0.10 sec)`            |                                                              |
 | 4    |                                                              | `mysql>update test_innodb_lock set b = '3' where b = 3000;Query OK,1 rows affected(1 min 3.41 sec) Rows matched:1 Changed:1 Warnings:0 阻塞解除，完成更新` |
 
+注：这里说明的问题是如果b未加索引的话，update b = 2000这条记录时锁的是整个表
+
 #### 间隙锁带来的插入问题演示
 
 |      | Session a                                                    | Session b                                                    |
@@ -1409,7 +1411,7 @@ create index test_innodb_lock_b_idx on test_innodb_lock(b);
 
 * 丢失更新：一个事务更新之后，另一个事务也更新了，但第二个事务回滚了，则第一个事务也<u>被回滚</u>了。
 * 脏读：一个事务读取到另一个事务<u>未提交的数据</u>。
-* 不可重复读：一个事务因读取到另一个事务<u>已提交的update或者delete数据</u>。导致对同一条记录读取两次以上的结果不一致。
+* 不可重复读：一个事务因读取到另一个事务<u>已提交的update或者delete数据</u>。导致对**同一条记录**读取两次以上的结果不一致。
 * 幻读：一个事务因读取到另一个事务<u>已提交的insert数据</u>。导致对同一张表读取两次以上的结果不一致。
 
 ## 事务隔离级别
@@ -1457,8 +1459,8 @@ create index test_innodb_lock_b_idx on test_innodb_lock(b);
 
 ### 索引是什么
 
-* 官方介绍索引是帮助MySQL高效获取数据的数据结构
-* 通俗来讲，数据库索引好比是一本书前面的目录，能加快数据库的查询速度；
+* 官方介绍索引是帮助MySQL**高效获取数据的数据结构**
+  * 通俗来讲，数据库索引好比是一本书前面的目录，能加快数据库的查询速度；
 * 一般来说，索引本身也很大，不可能全部存储在内存中，因此索引往往是存储在磁盘上的文件中的(可能存储在单独的索引文件中，也可能和数据一起存储在数据文件中)；
 * 我们通常所说的索引，没有特别说明，都是指B树(多路搜索树，并不一定是二叉的)结构组织的索引。
 * 其中聚集索引、覆盖索引、组合索引、前缀索引、唯一索引默认都是使用B＋树索引，统称索引。
